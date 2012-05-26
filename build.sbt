@@ -8,6 +8,9 @@ scalaVersion := "2.9.1"
 
 seq(webSettings :_*)
 
+// for less-sbt
+seq(lessSettings:_*)
+
 //run with ~container:start using a context path localhost:8080/test to make sure noting breaks 
 //env in Compile :=  Some(file(".") / "jetty-env.xml" asFile) 
  
@@ -16,6 +19,10 @@ scanDirectories in Compile := Nil
 
 logLevel := Level.Info
 //Level.Info.Debug
+
+(resourceManaged in (Compile, LessKeys.less)) <<= baseDirectory(_ /"src" / "main" / "webapp" / "css")
+
+(LessKeys.filter in (Compile, LessKeys.less)) := "bootstrap.less"
 
 // I don't know how to make these three more compact...
 resolvers += "Sonatype OSS Snapshot Repository" at "https://oss.sonatype.org/content/repositories/snapshots/"
